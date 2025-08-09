@@ -1,10 +1,12 @@
 package com.vuduy.restfulapi.controller;
 
+import java.security.InvalidKeyException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vuduy.restfulapi.domain.User;
 import com.vuduy.restfulapi.service.UserService;
+import com.vuduy.restfulapi.service.error.IdInValidException;
 
 @RestController
 public class UserController {
@@ -47,7 +50,11 @@ public class UserController {
     }
 
     @DeleteMapping("users/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) throws IdInValidException {
+        if (id >= 1500) {
+            throw new IdInValidException("ID không được lớn hơn 1500");
+        }
         this.userService.handleDeleteUser(id);
+        return ResponseEntity.ok().body("Delete User");
     }
 }
