@@ -69,6 +69,19 @@
 			<scope>runtime</scope>
 		</dependency>
 
+
+		<!-- Bảo mật API/WEB -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!--Theo dõi tình trạng hệ thống-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +24,17 @@ public class UserController {
 
     private final UserService userService; // Thêm final để pro hơn
 
-    public UserController(UserService userService) {
+    private final PasswordEncoder passwordEncoder; // Thêm final để pro hơn
+
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("users")
     public ResponseEntity<User> createUser(@RequestBody User newUser) {
+        String hashPassword = this.passwordEncoder.encode(newUser.getPassword());
+        newUser.setPassword(hashPassword);
         User currentUser = this.userService.handleUser(newUser);
         return ResponseEntity.ok().body(currentUser);
     }
