@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
@@ -29,6 +28,7 @@ public class SecurityConfiguration {
                         authz -> authz
                                 .requestMatchers("/").permitAll()
                                 .anyRequest().authenticated())
+                .formLogin(f -> f.permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // sử
                                                                                                                // dụng
                                                                                                                // mô
